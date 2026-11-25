@@ -62,7 +62,7 @@ export const sampleCalls: { column: BingoColumn; number: number }[] = [
 
 export const selectedCardNumbers = [28, 77];
 
-export function getCardNumbers(cardNumber: number): number[] {
+export function getCardNumbers(cardNumber: number): (number | null)[] {
   const start = (cardNumber * 7) % 15;
   const columns = [
     { min: 1, max: 15 },
@@ -72,12 +72,10 @@ export function getCardNumbers(cardNumber: number): number[] {
     { min: 61, max: 75 },
   ];
 
-  return columns.flatMap(({ min, max }, columnIndex) => {
-    const count = columnIndex === 2 ? 4 : 5;
-    const values: number[] = [];
-    for (let row = 0; row < count; row += 1) {
-      values.push(min + ((start + row * 3 + columnIndex * 5) % (max - min + 1)));
-    }
-    return values;
-  });
+  return columns.flatMap(({ min, max }, columnIndex) =>
+    Array.from({ length: 5 }, (_, row) => {
+      if (columnIndex === 2 && row === 2) return null;
+      return min + ((start + row * 3 + columnIndex * 5) % (max - min + 1));
+    }),
+  );
 }

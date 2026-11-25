@@ -31,12 +31,12 @@ export function BingoCard({ cardNumber, daubed = [], winning = false, onCellPres
           {[0, 1, 2, 3, 4].map((column) => {
             const number = numbers[column * 5 + row];
             const isFree = column === 2 && row === 2;
-            const isDaubed = isFree || daubed.includes(number);
+            const isDaubed = isFree || (number !== null && daubed.includes(number));
             return (
               <Pressable
                 key={`${row}-${column}`}
                 disabled={isFree || !onCellPress}
-                onPress={() => onCellPress?.(number)}
+                onPress={() => number !== null && onCellPress?.(number)}
                 style={[
                   styles.cell,
                   isDaubed && styles.daubed,

@@ -3,7 +3,6 @@ import { useMemo, useState } from 'react';
 import {
   Alert,
   Pressable,
-  SafeAreaView,
   ScrollView,
   StatusBar,
   StyleSheet,
@@ -11,7 +10,8 @@ import {
   Text,
   View,
 } from 'react-native';
-import { BingoCard } from '@/src/components/BingoCard';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { BingoCard } from '@/components/BingoCard';
 import { bingoColors, colors } from '@/src/constants/theme';
 import { BingoColumn, sampleCalls, selectedCardNumbers } from '@/src/mock/bingoMockData';
 
@@ -123,7 +123,7 @@ export default function GameRoomScreen() {
 
 const styles = StyleSheet.create({
   safe: { flex: 1, backgroundColor: colors.canvas },
-  hud: { flexDirection: 'row', alignItems: 'center', backgroundColor: colors.slate900, paddingVertical: 11, paddingHorizontal: 8 },
+  hud: { flexDirection: 'row', alignItems: 'center', backgroundColor: colors.slate900, paddingTop: 16, paddingBottom: 11, paddingHorizontal: 8 },
   close: { width: 29, height: 29, borderRadius: 9, backgroundColor: colors.slate800, alignItems: 'center', justifyContent: 'center', marginRight: 4 },
   closeText: { color: colors.white, fontSize: 21, lineHeight: 25, fontWeight: '700' },
   hudStat: { flex: 1, alignItems: 'center' },

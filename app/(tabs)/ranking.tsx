@@ -1,8 +1,9 @@
 import { useState } from 'react';
-import { SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, Pressable, View } from 'react-native';
+import { ScrollView, StatusBar, StyleSheet, Text, Pressable, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { colors } from '@/src/constants/theme';
 import { rankedPlayers } from '@/src/mock/bingoMockData';
-import { ScreenTitle } from '@/src/components/ScreenTitle';
+import { ScreenTitle } from '@/components/ScreenTitle';
 
 const periods = ['DAILY (1-30)', 'WEEKLY (1-20)', 'LAST WEEK (1-10)'];
 const pages = ['RANK 1-5', 'RANK 16-20', 'RANK 26-30'];
@@ -10,8 +11,14 @@ const pages = ['RANK 1-5', 'RANK 16-20', 'RANK 26-30'];
 export default function RankingScreen() {
   const [period, setPeriod] = useState(periods[1]);
   const [page, setPage] = useState(0);
-  const visiblePlayers = rankedPlayers.slice(0, 5);
-  const pageOffset = page === 1 ? 15 : page === 2 ? 25 : 0;
+  const periodIndex = periods.indexOf(period);
+  const firstPlayerIndex = page === 0 ? 0 : 5;
+  const visiblePlayers = rankedPlayers.slice(firstPlayerIndex, firstPlayerIndex + 5).map((player) => ({
+    ...player,
+    wins: Math.max(player.wins - periodIndex * 3, 1),
+    prize: Math.max(player.prize - periodIndex * 150, 100),
+  }));
+  const pageOffset = page === 1 ? 10 : page === 2 ? 20 : 0;
 
   return (
     <SafeAreaView style={styles.safe}>
@@ -91,7 +98,7 @@ export default function RankingScreen() {
 
 const styles = StyleSheet.create({
   safe: { flex: 1, backgroundColor: colors.canvas },
-  content: { paddingHorizontal: 17, paddingTop: 9, paddingBottom: 24 },
+  content: { paddingHorizontal: 17, paddingTop: 18, paddingBottom: 24 },
   top: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 14 },
   brand: { color: colors.slate900, fontSize: 17, fontWeight: '900', letterSpacing: 0.7 },
   avatar: { width: 38, height: 38, borderRadius: 14, backgroundColor: colors.slate900, alignItems: 'center', justifyContent: 'center' },

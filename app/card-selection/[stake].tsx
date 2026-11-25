@@ -4,13 +4,13 @@ import {
   Alert,
   FlatList,
   Pressable,
-  SafeAreaView,
   StatusBar,
   StyleSheet,
   Text,
   View,
 } from 'react-native';
-import { BingoCard } from '@/src/components/BingoCard';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { BingoCard } from '@/components/BingoCard';
 import { colors } from '@/src/constants/theme';
 
 const cardNumbers = Array.from({ length: 600 }, (_, index) => index + 1);
@@ -20,7 +20,7 @@ export default function CardSelectionScreen() {
   const router = useRouter();
   const { stake: stakeParam } = useLocalSearchParams<{ stake: string }>();
   const stake = Number(stakeParam) || 20;
-  const [selected, setSelected] = useState<number[]>([28, 77]);
+  const [selected, setSelected] = useState<number[]>(() => stake * 2 <= 646 ? [28, 77] : [28]);
   const remainingBalance = useMemo(() => Math.max(646 - selected.length * stake, 0), [selected.length, stake]);
 
   const toggleCard = (cardNumber: number) => {
@@ -96,7 +96,7 @@ export default function CardSelectionScreen() {
 
 const styles = StyleSheet.create({
   safe: { flex: 1, backgroundColor: colors.canvas },
-  hud: { flexDirection: 'row', alignItems: 'center', backgroundColor: colors.slate900, paddingVertical: 10, paddingHorizontal: 8 },
+  hud: { flexDirection: 'row', alignItems: 'center', backgroundColor: colors.slate900, paddingTop: 15, paddingBottom: 10, paddingHorizontal: 8 },
   close: { width: 30, height: 30, borderRadius: 10, backgroundColor: '#1E293B', alignItems: 'center', justifyContent: 'center', marginRight: 5 },
   closeText: { color: colors.white, fontSize: 21, lineHeight: 24, fontWeight: '700' },
   stat: { flex: 1, alignItems: 'center' },

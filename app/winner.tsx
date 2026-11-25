@@ -1,6 +1,7 @@
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { Pressable, SafeAreaView, StatusBar, StyleSheet, Text, View } from 'react-native';
-import { BingoCard } from '@/src/components/BingoCard';
+import { Pressable, StatusBar, StyleSheet, Text, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { BingoCard } from '@/components/BingoCard';
 import { colors } from '@/src/constants/theme';
 
 export default function WinnerModalScreen() {

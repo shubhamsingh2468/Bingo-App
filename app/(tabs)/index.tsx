@@ -5,18 +5,25 @@ import {
   Alert,
   Pressable,
   RefreshControl,
-  SafeAreaView,
   ScrollView,
   StatusBar,
   StyleSheet,
   Text,
   View,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { colors } from '@/src/constants/theme';
 import { prizeRanks, stakeRooms } from '@/src/mock/bingoMockData';
-import { ScreenTitle } from '@/src/components/ScreenTitle';
+import { ScreenTitle } from '@/components/ScreenTitle';
 
 const countdownDigits = ['02', '07', '35', '28'];
+const tableHeaders = [
+  { label: 'STAKE', width: '18%' },
+  { label: 'STATUS', width: '18%' },
+  { label: 'PLAYERS', width: '17%' },
+  { label: 'PRIZE', width: '17%' },
+  { label: 'ACTION', width: '30%' },
+];
 
 export default function GamesLobbyScreen() {
   const router = useRouter();
@@ -109,8 +116,8 @@ export default function GamesLobbyScreen() {
 
         <View style={styles.table}>
           <View style={styles.tableHead}>
-            {['STAKE', 'STATUS', 'PLAYERS', 'PRIZE', ''].map((label, index) => (
-              <Text key={index} style={[styles.tableHeadText, index === 4 && styles.actionHead]}>{label}</Text>
+            {tableHeaders.map(({ label, width }) => (
+              <Text key={label} style={[styles.tableHeadText, { width }, label === 'ACTION' && styles.actionHead]}>{label}</Text>
             ))}
           </View>
           {stakeRooms.map((room) => (
@@ -152,7 +159,7 @@ export default function GamesLobbyScreen() {
 
 const styles = StyleSheet.create({
   safe: { flex: 1, backgroundColor: colors.canvas },
-  content: { paddingHorizontal: 17, paddingTop: 9, paddingBottom: 22 },
+  content: { paddingHorizontal: 17, paddingTop: 18, paddingBottom: 22 },
   header: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 14 },
   brand: { color: colors.slate900, fontSize: 17, fontWeight: '900', letterSpacing: 0.7 },
   brandBlue: { color: colors.blue },
@@ -195,8 +202,8 @@ const styles = StyleSheet.create({
   liveText: { color: colors.slate700, fontSize: 7, fontWeight: '900', letterSpacing: 0.4 },
   table: { borderRadius: 15, overflow: 'hidden', backgroundColor: colors.white, borderWidth: 1, borderColor: colors.slate200 },
   tableHead: { height: 34, flexDirection: 'row', alignItems: 'center', paddingHorizontal: 8, backgroundColor: colors.slate100 },
-  tableHeadText: { width: '18%', color: colors.slate500, fontSize: 7, fontWeight: '900', letterSpacing: 0.3 },
-  actionHead: { width: '15%', textAlign: 'center' },
+  tableHeadText: { color: colors.slate500, fontSize: 7, fontWeight: '900', letterSpacing: 0.3 },
+  actionHead: { textAlign: 'center' },
   roomRow: { minHeight: 59, flexDirection: 'row', alignItems: 'center', paddingHorizontal: 8, borderTopWidth: 1, borderTopColor: colors.slate100 },
   roomStake: { width: '18%', flexDirection: 'row', alignItems: 'baseline' },
   stakeAmount: { color: colors.slate900, fontSize: 13, fontWeight: '900', fontVariant: ['tabular-nums'] },
